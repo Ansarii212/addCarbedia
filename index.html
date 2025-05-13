@@ -181,6 +181,7 @@
   <h3>أضف سيارة جديدة</h3>
   <div class="filters">
   <select id="brandFilter"><option value="">الشركة</option><option>تويوتا</option><option>هيونداي</option><option>مرسيدس</option><option>نيسان</option></select>
+  <select id="brandFilter"><option value="">الماركة</option><option>تويوتا</option><option>هيونداي</option><option>مرسيدس</option><option>نيسان</option></select>
   <select id="cityFilter"><option value="">المدينة</option><option>الرياض</option><option>جدة</option><option>الدمام</option><option>المدينة</option></select>
   <select id="modelFilter"><option value="">الموديل</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option></select>
   <select id="typeFilter"><option value="">النوع</option><option>سيدان</option><option>دفع رباعي</option><option>هاتشباك</option><option>بيك أب</option></select>
@@ -198,72 +199,6 @@
 </div>
 
 
-
-<script>
-  function toggleLike(btn) {
-    btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
-  }
-
-  function timeAgo() {
-    return "منذ دقيقة";
-  }
-
-  function filterCards() {
-    // يمكن لاحقًا ربط فلاتر مع العناصر لعمل تصفية ديناميكية
-    alert("خاصية التصفية ستُفعل لاحقاً");
-  }
-
-  function addCard() {
-    const name = document.getElementById("name").value;
-    const city = document.getElementById("city").value;
-    const brand = document.getElementById("brand").value;
-    const model = document.getElementById("model").value;
-    const type = document.getElementById("type").value;
-    const gear = document.getElementById("gear").value;
-    const fuel = document.getElementById("fuel").value;
-    const color = document.getElementById("color").value;
-    const power = document.getElementById("power").value;
-    const cc = document.getElementById("cc").value;
-    const price = document.getElementById("price").value;
-    const imageInput = document.getElementById("imageInput").files[0];
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const imageUrl = e.target.result;
-
-      const cardHTML = `
-        <div class="card">
-          <img src="${imageUrl}" alt="${name}">
-          <div class="card-content">
-            <h2>${brand} ${name} ${model}</h2>
-            <ul>
-              <li><i class="fas fa-map-marker-alt"></i>${city}</li>
-              <li><i class="fas fa-industry"></i>${brand}</li>
-              <li><i class="fas fa-calendar-alt"></i>${model}</li>
-              <li><i class="fas fa-car-side"></i>${type}</li>
-              <li><i class="fas fa-cogs"></i>${gear}</li>
-              <li><i class="fas fa-gas-pump"></i>${fuel}</li>
-              <li><i class="fas fa-tachometer-alt"></i>${cc} CC</li>
-              <li><i class="fas fa-horse-head"></i>${power} حصان</li>
-              <li><i class="fas fa-palette"></i>${color}</li>
-              <li><i class="fas fa-money-bill"></i>${price} جنيه</li>
-            </ul>
-            <div class="card-footer">
-              <div class="card-buttons">
-                <button class="btn like-btn" onclick="toggleLike(this)">♡</button>
-                <button class="btn share-btn">مشاركة</button>
-                <a class="btn whatsapp-btn" href="#">واتساب</a>
-              </div>
-              <span>${timeAgo()}</span>
-            </div>
-          </div>
-        </div>
-      `;
-      document.getElementById("cardsContainer").insertAdjacentHTML("afterbegin", cardHTML);
-    };
-    if (imageInput) reader.readAsDataURL(imageInput);
-  }
-</script>
 
 </body>
 </html>
