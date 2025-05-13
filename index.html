@@ -79,16 +79,16 @@
 
   <form class="add-form">
     <div class="filters">
-      <select id="brandFilter"><option value="">الشركة</option></select>
-      <select id="markFilter"><option value="">الماركة</option></select>
-      <select id="modelFilter"><option value="">الموديل</option></select>
-      <select id="typeFilter"><option value="">النوع</option></select>
-      <select id="gearFilter"><option value="">القير</option></select>
-      <select id="fuelFilter"><option value="">الوقود</option></select>
-      <select id="colorFilter"><option value="">اللون</option></select>
-      <select id="powerFilter"><option value="">القوة</option></select>
-      <select id="ccFilter"><option value="">السعة</option></select>
-      <select id="cityFilter"><option value="">المدينة</option></select>
+      <select id="brandFilter"><option value="">الشركة</option><option value="Toyota">تويوتا</option><option value="Honda">هوندا</option><option value="BMW">بي إم دبليو</option></select>
+      <select id="markFilter"><option value="">الماركة</option><option value="Corolla">كورولا</option><option value="Civic">سيفيك</option><option value="X5">إكس 5</option></select>
+      <select id="modelFilter"><option value="">الموديل</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option></select>
+      <select id="typeFilter"><option value="">النوع</option><option value="SUV">SUV</option><option value="Sedan">سيدان</option><option value="Truck">شاحنة</option></select>
+      <select id="gearFilter"><option value="">القير</option><option value="Automatic">أوتوماتيك</option><option value="Manual">يدوي</option></select>
+      <select id="fuelFilter"><option value="">الوقود</option><option value="Gasoline">بنزين</option><option value="Diesel">ديزل</option><option value="Electric">كهرباء</option></select>
+      <select id="colorFilter"><option value="">اللون</option><option value="Red">أحمر</option><option value="Black">أسود</option><option value="White">أبيض</option></select>
+      <select id="powerFilter"><option value="">القوة</option><option value="150HP">150 حصان</option><option value="200HP">200 حصان</option><option value="250HP">250 حصان</option></select>
+      <select id="ccFilter"><option value="">السعة</option><option value="1500">1500 سم³</option><option value="2000">2000 سم³</option><option value="3000">3000 سم³</option></select>
+      <select id="cityFilter"><option value="">المدينة</option><option value="Riyadh">الرياض</option><option value="Jeddah">جدة</option><option value="Dammam">الدمام</option></select>
     </div>
 
     <div class="inputs">
@@ -98,7 +98,7 @@
       <input type="file" id="imageInput">
     </div>
 
-    <button type="button" onclick="addCar()">إضافة</button>
+    <button type="button" onclick="addCard()">إضافة</button>
   </form>
 
   <!-- Firebase SDKs -->
@@ -122,7 +122,7 @@
     const db = firebase.database();
     const storage = firebase.storage();
 
-    function addCar() {
+    function addCard() {
       const name = document.getElementById('name').value;
       const cc = document.getElementById('cc').value;
       const price = document.getElementById('price').value;
