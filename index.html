@@ -199,32 +199,30 @@
 </div>
 
 <script type="module">
-  // استيراد Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-  // Config الخاص بك
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCr4T8GLRxtf_6LNrokjKvmBOwSkuGO5yQ",
+    authDomain: "hamsa-6009e.firebaseapp.com",
+    databaseURL: "https://hamsa-6009e-default-rtdb.firebaseio.com",
+    projectId: "hamsa-6009e",
+    storageBucket: "hamsa-6009e.firebasestorage.app",
+    messagingSenderId: "998163671039",
+    appId: "1:998163671039:web:d1930ea5b71a3a3fc729ca",
+    measurementId: "G-PD1QB8X0FE"
   };
 
-  // تهيئة التطبيق و Firestore
   const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
-  // دالة الإضافة
-  window.addCard = async function() {
+  window.addCard = async function () {
     const name = document.getElementById('name').value;
     const cc = document.getElementById('cc').value;
     const price = document.getElementById('price').value;
-    const imageFile = document.getElementById('imageInput').files[0];
 
-    // باقي الفلاتر
     const brand = document.querySelectorAll('#brandFilter')[0].value;
     const mark = document.querySelectorAll('#brandFilter')[1].value;
     const city = document.getElementById('cityFilter').value;
@@ -237,8 +235,7 @@
     const capacity = document.getElementById('ccFilter').value;
 
     try {
-      // إضافة البيانات (بدون صورة حالياً)
-      const docRef = await addDoc(collection(db, "cars"), {
+      await addDoc(collection(db, "cars"), {
         name,
         cc,
         price,
@@ -254,9 +251,9 @@
         capacity,
         timestamp: new Date().toISOString()
       });
-      alert("تمت الإضافة بنجاح!");
-    } catch (e) {
-      console.error("خطأ في الإضافة: ", e);
+      alert("تمت إضافة السيارة بنجاح!");
+    } catch (error) {
+      console.error("خطأ في الإضافة:", error);
       alert("حدث خطأ أثناء الإضافة.");
     }
   };
