@@ -1,294 +1,236 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>معرض السيارات</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>إدارة السيارات</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
+      font-family: 'Arial', sans-serif;
       direction: rtl;
+      background-color: #f4f4f4;
+      margin: 20px;
     }
 
     h1 {
       text-align: center;
-      color: #333;
-      margin-bottom: 30px;
+    }
+
+    .add-form {
+      background-color: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .add-form input,
+    .add-form select,
+    .add-form button {
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #cardsContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
     }
 
     .card {
-      display: flex;
-      flex-direction: row-reverse;
       background-color: #fff;
+      border: 1px solid #ddd;
       border-radius: 10px;
+      width: 280px;
       overflow: hidden;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      align-items: flex-start;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
 
     .card img {
-      width: 200px;
-      height: auto;
+      width: 100%;
+      height: 200px;
       object-fit: cover;
     }
 
     .card-content {
-      padding: 20px;
-      flex: 1;
+      padding: 10px;
     }
 
-    .card h2 {
-      margin-top: 0;
-      color: #444;
+    .card-content h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
     }
 
-    .card ul {
+    .card-content ul {
       list-style: none;
       padding: 0;
-    }
-
-    .card ul li {
-      margin-bottom: 6px;
-      color: #333;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .card-footer {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    .card-buttons {
-      display: flex;
-      gap: 10px;
+      padding: 10px;
     }
 
     .btn {
-      padding: 8px 12px;
       border: none;
-      border-radius: 5px;
+      padding: 8px 12px;
       cursor: pointer;
-      font-size: 14px;
-    }
-
-    .like-btn {
-      background-color: #eee;
-      color: red;
-      font-size: 18px;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .share-btn {
-      background-color: #007bff;
-      color: white;
+      border-radius: 5px;
     }
 
     .whatsapp-btn {
       background-color: #25D366;
       color: white;
-      text-decoration: none;
     }
 
     .delete-btn {
-      background-color: #dc3545;
+      background-color: #e74c3c;
       color: white;
-    }
-
-    .add-form {
-      margin-top: 40px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-
-    .add-form h3 {
-      text-align: center;
-    }
-
-    .add-form input, .add-form select {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .add-form button {
-      background-color: #28a745;
-      color: white;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px 15px;
-      margin-bottom: 20px;
-    }
-
-    .filters select {
-      padding: 10px;
-      width: 150px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 14px;
     }
   </style>
 </head>
 <body>
-<h1>add Carbedia</h1>
 
-<div id="cardsContainer"></div>
+  <h1>إدارة السيارات</h1>
 
-<form class="add-form" onsubmit="event.preventDefault(); addCard();">
-  <h3>أضف سيارة جديدة</h3>
-  <div class="filters">
-    <select id="brandFilter"><option value="">الشركة</option><option>تويوتا</option><option>هيونداي</option></select>
-    <select id="markFilter"><option value="">الماركة</option><option>كامري</option><option>سوناتا</option></select>
-    <select id="cityFilter"><option value="">المدينة</option><option>الرياض</option><option>جدة</option></select>
-    <select id="modelFilter"><option value="">الموديل</option><option>2022</option><option>2023</option></select>
-    <select id="typeFilter"><option value="">النوع</option><option>سيدان</option><option>هاتشباك</option></select>
-    <select id="gearFilter"><option value="">القير</option><option>أوتوماتيك</option><option>عادي</option></select>
-    <select id="fuelFilter"><option value="">الوقود</option><option>بنزين</option><option>كهرباء</option></select>
-    <select id="colorFilter"><option value="">اللون</option><option>أبيض</option><option>أسود</option></select>
-    <select id="powerFilter"><option value="">القوة</option><option>100 حصان</option><option>150 حصان</option></select>
-    <select id="ccFilter"><option value="">السعة</option><option>1500 CC</option><option>2000 CC</option></select>
-  </div>
-  <input type="text" id="name" placeholder="عنوان الإعلان">
-  <input type="text" id="cc" placeholder="عدد الأحصنة">
-  <input type="number" id="price" placeholder="السعر">
-  <input type="file" id="imageInput" accept="image/*">
-  <button type="submit">إضافة</button>
-</form>
+  <form class="add-form">
+    <input type="text" id="name" placeholder="اسم السيارة">
+    <input type="text" id="cc" placeholder="عدد الأحصنة">
+    <input type="text" id="price" placeholder="السعر">
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-  import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
-  import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+    <select id="brandFilter"><option value="">الشركة</option></select>
+    <select id="markFilter"><option value="">الماركة</option></select>
+    <select id="modelFilter"><option value="">الموديل</option></select>
+    <select id="typeFilter"><option value="">النوع</option></select>
+    <select id="gearFilter"><option value="">القير</option></select>
+    <select id="fuelFilter"><option value="">الوقود</option></select>
+    <select id="colorFilter"><option value="">اللون</option></select>
+    <select id="powerFilter"><option value="">القوة</option></select>
+    <select id="ccFilter"><option value="">السعة</option></select>
+    <select id="cityFilter"><option value="">المدينة</option></select>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCr4T8GLRxtf_6LNrokjKvmBOwSkuGO5yQ",
-    authDomain: "hamsa-6009e.firebaseapp.com",
-    databaseURL: "https://hamsa-6009e-default-rtdb.firebaseio.com",
-    projectId: "hamsa-6009e",
-    storageBucket: "hamsa-6009e.appspot.com",
-    messagingSenderId: "998163671039",
-    appId: "1:998163671039:web:d1930ea5b71a3a3fc729ca",
-    measurementId: "G-PD1QB8X0FE"
-  };
+    <input type="file" id="imageInput">
+    <button type="button" onclick="addCard()">إضافة</button>
+  </form>
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const storage = getStorage(app);
+  <div id="cardsContainer"></div>
 
-  const cardsContainer = document.getElementById('cardsContainer');
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
-  // عرض السيارات
-  onValue(ref(db, 'cars'), snapshot => {
-    cardsContainer.innerHTML = '';
-    snapshot.forEach(child => {
-      const car = child.val();
-      const key = child.key;
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <img src="${car.imageURL || 'https://via.placeholder.com/200'}">
-        <div class="card-content">
-          <h2>${car.name}</h2>
-          <ul>
-            <li><i class="fas fa-coins"></i> السعر: ${car.price || 'غير محدد'} ريال</li>
-            <li><i class="fas fa-car"></i> الشركة: ${car.brand || '-'} / الماركة: ${car.mark || '-'} / الموديل: ${car.model || '-'}</li>
-            <li><i class="fas fa-cogs"></i> النوع: ${car.type || '-'} / القير: ${car.gear || '-'} / الوقود: ${car.fuel || '-'}</li>
-            <li><i class="fas fa-palette"></i> اللون: ${car.color || '-'} / القوة: ${car.power || '-'} / السعة: ${car.capacity || '-'}</li>
-            <li><i class="fas fa-map-marker-alt"></i> المدينة: ${car.city || '-'}</li>
-            <li><i class="fas fa-bolt"></i> عدد الأحصنة: ${car.cc || '-'}</li>
-          </ul>
-          <div class="card-footer">
-            <div class="card-buttons">
-              <a class="btn whatsapp-btn" href="https://wa.me/?text=${encodeURIComponent(car.name)}" target="_blank"><i class="fab fa-whatsapp"></i></a>
-              <button class="btn delete-btn" onclick="deleteCar('${key}')"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>
-        </div>
-      `;
-      cardsContainer.appendChild(card);
-    });
-  });
-
-  // حذف سيارة
-  window.deleteCar = async function (key) {
-    if (confirm("هل تريد حذف هذه السيارة؟")) {
-      await remove(ref(db, 'cars/' + key));
-    }
-  };
-
-  // إضافة سيارة
-  window.addCard = async function () {
-    const name = document.getElementById('name').value;
-    const cc = document.getElementById('cc').value;
-    const price = document.getElementById('price').value;
-
-    const brand = document.getElementById('brandFilter').value;
-    const mark = document.getElementById('markFilter').value;
-    const city = document.getElementById('cityFilter').value;
-    const model = document.getElementById('modelFilter').value;
-    const type = document.getElementById('typeFilter').value;
-    const gear = document.getElementById('gearFilter').value;
-    const fuel = document.getElementById('fuelFilter').value;
-    const color = document.getElementById('colorFilter').value;
-    const power = document.getElementById('powerFilter').value;
-    const capacity = document.getElementById('ccFilter').value;
-    const imageInput = document.getElementById('imageInput');
-
-    let imageURL = '';
-    if (imageInput.files.length > 0) {
-      const file = imageInput.files[0];
-      const storageRef = sRef(storage, 'car_images/' + Date.now() + '_' + file.name);
-      const snapshot = await uploadBytes(storageRef, file);
-      imageURL = await getDownloadURL(snapshot.ref);
-    }
-
-    const data = {
-      name,
-      cc,
-      price,
-      brand,
-      mark,
-      city,
-      model,
-      type,
-      gear,
-      fuel,
-      color,
-      power,
-      capacity,
-      imageURL,
-      timestamp: new Date().toISOString()
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCr4T8GLRxtf_6LNrokjKvmBOwSkuGO5yQ",
+      authDomain: "hamsa-6009e.firebaseapp.com",
+      databaseURL: "https://hamsa-6009e-default-rtdb.firebaseio.com",
+      projectId: "hamsa-6009e",
+      storageBucket: "hamsa-6009e.appspot.com",
+      messagingSenderId: "998163671039",
+      appId: "1:998163671039:web:d1930ea5b71a3a3fc729ca",
+      measurementId: "G-PD1QB8X0FE"
     };
 
-    await push(ref(db, 'cars'), data);
-    alert('تمت إضافة السيارة بنجاح');
-    document.querySelector('.add-form').reset();
-  };
-</script>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const storage = firebase.storage();
+    const cardsContainer = document.getElementById('cardsContainer');
+
+    db.ref('cars').on('value', snapshot => {
+      cardsContainer.innerHTML = '';
+      snapshot.forEach(child => {
+        const car = child.val();
+        const key = child.key;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${car.imageURL || 'https://via.placeholder.com/200'}">
+          <div class="card-content">
+            <h2>${car.name}</h2>
+            <ul>
+              <li>السعر: ${car.price || 'غير محدد'} ريال</li>
+              <li>الشركة: ${car.brand || '-'} / الماركة: ${car.mark || '-'} / الموديل: ${car.model || '-'}</li>
+              <li>النوع: ${car.type || '-'} / القير: ${car.gear || '-'} / الوقود: ${car.fuel || '-'}</li>
+              <li>اللون: ${car.color || '-'} / القوة: ${car.power || '-'} / السعة: ${car.capacity || '-'}</li>
+              <li>المدينة: ${car.city || '-'}</li>
+              <li>عدد الأحصنة: ${car.cc || '-'}</li>
+            </ul>
+            <div class="card-footer">
+              <a class="btn whatsapp-btn" href="https://wa.me/?text=${encodeURIComponent(car.name)}" target="_blank">واتساب</a>
+              <button class="btn delete-btn" onclick="deleteCar('${key}')">حذف</button>
+            </div>
+          </div>
+        `;
+        cardsContainer.appendChild(card);
+      });
+    });
+
+    function deleteCar(key) {
+      if (confirm("هل تريد حذف هذه السيارة؟")) {
+        db.ref('cars/' + key).remove();
+      }
+    }
+
+    function addCard() {
+      const name = document.getElementById('name').value;
+      const cc = document.getElementById('cc').value;
+      const price = document.getElementById('price').value;
+
+      const brand = document.getElementById('brandFilter').value;
+      const mark = document.getElementById('markFilter').value;
+      const model = document.getElementById('modelFilter').value;
+      const type = document.getElementById('typeFilter').value;
+      const gear = document.getElementById('gearFilter').value;
+      const fuel = document.getElementById('fuelFilter').value;
+      const color = document.getElementById('colorFilter').value;
+      const power = document.getElementById('powerFilter').value;
+      const capacity = document.getElementById('ccFilter').value;
+      const city = document.getElementById('cityFilter').value;
+      const imageInput = document.getElementById('imageInput');
+
+      if (imageInput.files.length > 0) {
+        const file = imageInput.files[0];
+        const storageRef = storage.ref('car_images/' + Date.now() + '_' + file.name);
+        storageRef.put(file).then(snapshot => {
+          snapshot.ref.getDownloadURL().then(url => {
+            saveCar(url);
+          });
+        });
+      } else {
+        saveCar('');
+      }
+
+      function saveCar(imageURL) {
+        const data = {
+          name,
+          cc,
+          price,
+          brand,
+          mark,
+          model,
+          type,
+          gear,
+          fuel,
+          color,
+          power,
+          capacity,
+          city,
+          imageURL,
+          timestamp: new Date().toISOString()
+        };
+        db.ref('cars').push(data);
+        alert('تمت الإضافة بنجاح');
+        document.querySelector('.add-form').reset();
+      }
+    }
+  </script>
 
 </body>
 </html>
