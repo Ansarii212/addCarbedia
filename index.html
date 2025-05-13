@@ -8,12 +8,13 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <style>
-    body { font-family: Tahoma; background: #f9f9f9; padding: 20px; direction: rtl; }
+    body { font-family: Tahoma; background: #f0f0f0; padding: 20px; direction: rtl; }
     h1 { text-align: center; color: #333; }
     .add-form { background: #fff; padding: 20px; border-radius: 10px; max-width: 700px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     .add-form h3 { text-align: center; }
     .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-    .filters select, .add-form input { width: 100%; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; }
+    .filters select, .add-form input { flex: 1 1 45%; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; }
+    .add-form input[type="file"] { flex: 1 1 100%; }
     .add-form button { background-color: #28a745; color: white; width: 100%; padding: 12px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
   </style>
 </head>
@@ -38,7 +39,7 @@
   <input type="text" id="title" placeholder="عنوان الإعلان" />
   <input type="number" id="price" placeholder="السعر" />
   <input type="file" id="image" accept="image/*" />
-  <button onclick="uploadCar()">إضافة</button>
+  <button id="addBtn">إضافة</button>
 </div>
 
 <script>
@@ -58,7 +59,7 @@
   const database = firebase.database();
   const storage = firebase.storage();
 
-  function uploadCar() {
+  document.getElementById('addBtn').addEventListener('click', function () {
     const title = document.getElementById('title').value;
     const price = document.getElementById('price').value;
     const brand = document.getElementById('brand').value;
@@ -88,12 +89,15 @@
         title, price, brand, model, city, type, gear, fuel, color, power, cc, image: imageURL
       });
       alert("تمت الإضافة بنجاح!");
-      document.querySelector(".add-form").reset();
+      // Reset form
+      document.getElementById('title').value = "";
+      document.getElementById('price').value = "";
+      document.getElementById('image').value = "";
     }).catch(error => {
       console.error("خطأ:", error);
-      alert("حدث خطأ أثناء الرفع.");
+      alert("حدث خطأ أثناء رفع البيانات.");
     });
-  }
+  });
 </script>
 
 </body>
