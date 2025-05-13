@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>إدارة السيارات</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     body {
       font-family: 'Arial', sans-serif;
       direction: rtl;
       background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
+      margin: 20px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
     }
 
     .add-form {
       background-color: #fff;
       padding: 15px;
-      margin: auto;
       margin-bottom: 20px;
       border: 1px solid #ccc;
       border-radius: 10px;
       max-width: 800px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      margin: auto;
     }
 
-    .filters,
-    .inputs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .filters select,
-    .inputs input,
-    .inputs select {
-      flex: 1 1 48%;
+    .add-form input,
+    .add-form select,
+    .add-form button {
+      margin: 5px 0;
       padding: 10px;
+      width: 100%;
       box-sizing: border-box;
     }
 
-    .inputs input[type="file"] {
-      flex: 1 1 100%;
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
     }
 
-    .add-form button {
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
+    .filters select,
+    .filters input[type="text"] {
+      flex: 1 1 150px;
+      padding: 8px;
+    }
+
+    #imagePreview {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 1px solid #ccc;
       border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
+      margin-top: 10px;
     }
 
     #cardsContainer {
@@ -74,6 +73,8 @@
       width: 280px;
       overflow: hidden;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
     }
 
     .card img {
@@ -97,6 +98,15 @@
       font-size: 14px;
     }
 
+    .card-content ul li {
+      margin-bottom: 5px;
+    }
+
+    .card-content ul li i {
+      margin-left: 5px;
+      color: #555;
+    }
+
     .card-footer {
       display: flex;
       justify-content: space-between;
@@ -108,7 +118,6 @@
       padding: 8px 12px;
       cursor: pointer;
       border-radius: 5px;
-      font-size: 14px;
     }
 
     .whatsapp-btn {
@@ -122,14 +131,9 @@
     }
 
     @media (max-width: 600px) {
-      .filters select,
-      .inputs input,
-      .inputs select {
-        flex: 1 1 100%;
-      }
-
-      .add-form button {
-        width: 100%;
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
       }
     }
   </style>
@@ -140,26 +144,89 @@
 
   <form class="add-form">
     <div class="filters">
-      <select id="brandFilter"><option value="">الشركة</option></select>
-      <select id="markFilter"><option value="">الماركة</option></select>
-      <select id="modelFilter"><option value="">الموديل</option></select>
-      <select id="typeFilter"><option value="">النوع</option></select>
-      <select id="gearFilter"><option value="">القير</option></select>
-      <select id="fuelFilter"><option value="">الوقود</option></select>
-      <select id="colorFilter"><option value="">اللون</option></select>
-      <select id="powerFilter"><option value="">القوة</option></select>
-      <select id="ccFilter"><option value="">السعة</option></select>
-      <select id="cityFilter"><option value="">المدينة</option></select>
+      <select id="brandFilter">
+        <option value="">الشركة</option>
+        <option value="تويوتا">تويوتا</option>
+        <option value="نيسان">نيسان</option>
+        <option value="هيونداي">هيونداي</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="markFilter">
+        <option value="">الماركة</option>
+        <option value="كورولا">كورولا</option>
+        <option value="سنترا">سنترا</option>
+        <option value="إلنترا">إلنترا</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="modelFilter">
+        <option value="">الموديل</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="typeFilter">
+        <option value="">النوع</option>
+        <option value="سيدان">سيدان</option>
+        <option value="SUV">SUV</option>
+        <option value="هاتشباك">هاتشباك</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="gearFilter">
+        <option value="">القير</option>
+        <option value="أوتوماتيك">أوتوماتيك</option>
+        <option value="عادي">عادي</option>
+      </select>
+      <select id="fuelFilter">
+        <option value="">الوقود</option>
+        <option value="بنزين">بنزين</option>
+        <option value="ديزل">ديزل</option>
+        <option value="كهرباء">كهرباء</option>
+      </select>
+      <select id="colorFilter">
+        <option value="">اللون</option>
+        <option value="أبيض">أبيض</option>
+        <option value="أسود">أسود</option>
+        <option value="أحمر">أحمر</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="powerFilter">
+        <option value="">القوة</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="ccFilter">
+        <option value="">السعة</option>
+        <option value="1.5">1.5</option>
+        <option value="2.0">2.0</option>
+        <option value="2.5">2.5</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
+      <select id="cityFilter">
+        <option value="">المدينة</option>
+        <option value="جدة">جدة</option>
+        <option value="الرياض">الرياض</option>
+        <option value="الدمام">الدمام</option>
+        <!-- أضف المزيد حسب الحاجة -->
+      </select>
     </div>
 
-    <div class="inputs">
-      <input type="text" id="name" placeholder="اسم السيارة">
-      <input type="text" id="cc" placeholder="عدد الأحصنة">
-      <input type="text" id="price" placeholder="السعر">
-      <input type="file" id="imageInput">
-    </div>
-
+    <input type="text" id="name" placeholder="اسم السيارة" />
+    <input type="text" id="cc" placeholder="عدد الأحصنة" />
+    <input type="text" id="price" placeholder="السعر" />
+    <input type="file" id="imageInput" accept="image/*" />
+    <img id="imagePreview" src="#" alt="معاينة الصورة" style="display: none;" />
     <button type="button" onclick="addCard()">إضافة</button>
+    <select id="sortFilter">
+      <option value="">ترتيب حسب</option>
+      <option value="newest">الأحدث</option>
+      <option value="oldest">الأقدم</option>
+      <option value="cheapest">الأرخص</option>
+      <option value="expensive">الأغلى</option>
+    </select>
+    <input type="text" id="searchInput" placeholder="بحث شامل..." />
   </form>
 
   <div id="cardsContainer"></div>
@@ -171,14 +238,14 @@
 
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyCr4T8GLRxtf_6LNrokjKvmBOwSkuGO5yQ",
-      authDomain: "hamsa-6009e.firebaseapp.com",
-      databaseURL: "https://hamsa-6009e-default-rtdb.firebaseio.com",
-      projectId: "hamsa-6009e",
-      storageBucket: "hamsa-6009e.appspot.com",
-      messagingSenderId: "998163671039",
-      appId: "1:998163671039:web:d1930ea5b71a3a3fc729ca",
-      measurementId: "G-PD1QB8X0FE"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MEASUREMENT_ID"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -186,93 +253,153 @@
     const storage = firebase.storage();
     const cardsContainer = document.getElementById('cardsContainer');
 
-    db.ref('cars').on('value', snapshot => {
-      cardsContainer.innerHTML = '';
-      snapshot.forEach(child => {
-        const car = child.val();
-        const key = child.key;
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${car.imageURL || 'https://via.placeholder.com/200'}">
-          <div class="card-content">
-            <h2>${car.name}</h2>
-            <ul>
-              <li>السعر: ${car.price || 'غير محدد'} ريال</li>
-              <li>الشركة: ${car.brand || '-'} / الماركة: ${car.mark || '-'} / الموديل: ${car.model || '-'}</li>
-              <li>النوع: ${car.type || '-'} / القير: ${car.gear || '-'} / الوقود: ${car.fuel || '-'}</li>
-              <li>اللون: ${car.color || '-'} / القوة: ${car.power || '-'} / السعة: ${car.capacity || '-'}</li>
-              <li>المدينة: ${car.city || '-'}</li>
-              <li>عدد الأحصنة: ${car.cc || '-'}</li>
-            </ul>
-            <div class="card-footer">
-              <a class="btn whatsapp-btn" href="https://wa.me/?text=${encodeURIComponent(car.name)}" target="_blank">واتساب</a>
-              <button class="btn delete-btn" onclick="deleteCar('${key}')">حذف</button>
-            </div>
-          </div>
-        `;
-        cardsContainer.appendChild(card);
-      });
-    });
+    let carsData = [];
 
-    function deleteCar(key) {
-      if (confirm("هل تريد حذف هذه السيارة؟")) {
-        db.ref('cars/' + key).remove();
-      }
+    function timeAgo(dateString) {
+      const now = new Date();
+      const past = new Date(dateString);
+      const diff = Math.floor((now - past) / 1000);
+      if (diff < 60) return "منذ ثوانٍ";
+      if (diff < 3600) return "منذ " + Math.floor(diff / 60) + " دقيقة";
+            if (diff < 86400) return "منذ " + Math.floor(diff / 3600) + " ساعة";
+      if (diff < 2592000) return "منذ " + Math.floor(diff / 86400) + " يوم";
+      if (diff < 31536000) return "منذ " + Math.floor(diff / 2592000) + " شهر";
+      return "منذ " + Math.floor(diff / 31536000) + " سنة";
     }
 
+    // معاينة الصورة قبل الإضافة
+    document.getElementById('imageInput').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById('imagePreview').style.display = 'block';
+          document.getElementById('imagePreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // إضافة سيارة جديدة
     function addCard() {
       const name = document.getElementById('name').value;
       const cc = document.getElementById('cc').value;
       const price = document.getElementById('price').value;
+      const imageInput = document.getElementById('imageInput').files[0];
+      const sort = document.getElementById('sortFilter').value;
 
-      const brand = document.getElementById('brandFilter').value;
-      const mark = document.getElementById('markFilter').value;
-      const model = document.getElementById('modelFilter').value;
-      const type = document.getElementById('typeFilter').value;
-      const gear = document.getElementById('gearFilter').value;
-      const fuel = document.getElementById('fuelFilter').value;
-      const color = document.getElementById('colorFilter').value;
-      const power = document.getElementById('powerFilter').value;
-      const capacity = document.getElementById('ccFilter').value;
-      const city = document.getElementById('cityFilter').value;
-      const imageInput = document.getElementById('imageInput');
+      // التأكد من تعبئة جميع الحقول
+      if (!name || !cc || !price || !imageInput) {
+        alert("يرجى تعبئة جميع الحقول");
+        return;
+      }
 
-      if (imageInput.files.length > 0) {
-        const file = imageInput.files[0];
-        const storageRef = storage.ref('car_images/' + Date.now() + '_' + file.name);
-        storageRef.put(file).then(snapshot => {
-          snapshot.ref.getDownloadURL().then(url => {
-            saveCar(url);
-          });
+      // تخزين الصورة في Firebase Storage
+      const storageRef = storage.ref().child('car_images/' + Date.now() + '-' + imageInput.name);
+      storageRef.put(imageInput).then(snapshot => {
+        snapshot.ref.getDownloadURL().then(imageUrl => {
+          const carData = {
+            name,
+            cc,
+            price,
+            imageUrl,
+            timestamp: new Date().toISOString()
+          };
+
+          // إضافة البيانات إلى Firebase Database
+          const newCarRef = db.ref('cars').push();
+          newCarRef.set(carData);
+          
+          // تحديث الواجهة
+          displayCar(newCarRef.key, carData);
         });
-      } else {
-        saveCar('');
+      });
+    }
+
+    // عرض السيارات في واجهة المستخدم
+    function displayCar(id, carData) {
+      const card = document.createElement('div');
+      card.classList.add('card');
+
+      const timeAgoText = timeAgo(carData.timestamp);
+
+      card.innerHTML = `
+        <img src="${carData.imageUrl}" alt="صورة السيارة">
+        <div class="card-content">
+          <h2>${carData.name}</h2>
+          <ul>
+            <li><i class="fa fa-car"></i> النوع: ${carData.cc}</li>
+            <li><i class="fa fa-money-bill-wave"></i> السعر: ${carData.price} ريال</li>
+            <li><i class="fa fa-clock"></i> ${timeAgoText}</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <button class="btn whatsapp-btn" onclick="sendWhatsApp(${id})">مشاركة عبر الواتساب</button>
+          <button class="btn delete-btn" onclick="deleteCar(${id})">حذف</button>
+        </div>
+      `;
+      cardsContainer.appendChild(card);
+    }
+
+    // إرسال رابط عبر WhatsApp
+    function sendWhatsApp(id) {
+      const car = carsData[id];
+      const message = `سيارة ${car.name} بسعر ${car.price} ريال. للمزيد: ${window.location.href}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    // حذف السيارة
+    function deleteCar(id) {
+      db.ref('cars/' + id).remove();
+      cardsContainer.innerHTML = '';
+      loadCars();
+    }
+
+    // تحميل السيارات من Firebase
+    function loadCars() {
+      db.ref('cars').on('child_added', snapshot => {
+        const carData = snapshot.val();
+        carsData[snapshot.key] = carData;
+        displayCar(snapshot.key, carData);
+      });
+    }
+
+    // تطبيق الفلاتر
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const filteredCars = carsData.filter(car => {
+        return car.name.toLowerCase().includes(searchTerm);
+      });
+
+      cardsContainer.innerHTML = '';
+      filteredCars.forEach(car => {
+        displayCar(car.id, car);
+      });
+    }
+
+    // ترتيب السيارات
+    document.getElementById('sortFilter').addEventListener('change', function () {
+      const sortOption = this.value;
+
+      let sortedCars = [...carsData];
+      if (sortOption === 'newest') {
+        sortedCars = sortedCars.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      } else if (sortOption === 'oldest') {
+        sortedCars = sortedCars.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+      } else if (sortOption === 'cheapest') {
+        sortedCars = sortedCars.sort((a, b) => a.price - b.price);
+      } else if (sortOption === 'expensive') {
+        sortedCars = sortedCars.sort((a, b) => b.price - a.price);
       }
 
-      function saveCar(imageURL) {
-        const data = {
-          name,
-          cc,
-          price,
-          brand,
-          mark,
-          model,
-          type,
-          gear,
-          fuel,
-          color,
-          power,
-          capacity,
-          city,
-          imageURL,
-          timestamp: new Date().toISOString()
-        };
-        db.ref('cars').push(data);
-        alert('تمت الإضافة بنجاح');
-        document.querySelector('.add-form').reset();
-      }
-    }
+      cardsContainer.innerHTML = '';
+      sortedCars.forEach(car => {
+        displayCar(car.id, car);
+      });
+    });
+
+    // تحميل السيارات عند تحميل الصفحة
+    loadCars();
   </script>
 
 </body>
