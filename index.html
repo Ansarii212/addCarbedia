@@ -198,7 +198,69 @@
   <button onclick="addCard()">إضافة</button>
 </div>
 
+<script type="module">
+  // استيراد Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
+  // Config الخاص بك
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // تهيئة التطبيق و Firestore
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // دالة الإضافة
+  window.addCard = async function() {
+    const name = document.getElementById('name').value;
+    const cc = document.getElementById('cc').value;
+    const price = document.getElementById('price').value;
+    const imageFile = document.getElementById('imageInput').files[0];
+
+    // باقي الفلاتر
+    const brand = document.querySelectorAll('#brandFilter')[0].value;
+    const mark = document.querySelectorAll('#brandFilter')[1].value;
+    const city = document.getElementById('cityFilter').value;
+    const model = document.getElementById('modelFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const gear = document.getElementById('gearFilter').value;
+    const fuel = document.getElementById('fuelFilter').value;
+    const color = document.getElementById('colorFilter').value;
+    const power = document.getElementById('powerFilter').value;
+    const capacity = document.getElementById('ccFilter').value;
+
+    try {
+      // إضافة البيانات (بدون صورة حالياً)
+      const docRef = await addDoc(collection(db, "cars"), {
+        name,
+        cc,
+        price,
+        brand,
+        mark,
+        city,
+        model,
+        type,
+        gear,
+        fuel,
+        color,
+        power,
+        capacity,
+        timestamp: new Date().toISOString()
+      });
+      alert("تمت الإضافة بنجاح!");
+    } catch (e) {
+      console.error("خطأ في الإضافة: ", e);
+      alert("حدث خطأ أثناء الإضافة.");
+    }
+  };
+</script>
 
 </body>
 </html>
