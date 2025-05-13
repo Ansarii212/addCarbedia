@@ -3,35 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <title>إدارة السيارات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Arial', sans-serif;
       direction: rtl;
       background-color: #f4f4f4;
-      margin: 20px;
+      margin: 0;
+      padding: 20px;
     }
 
     h1 {
       text-align: center;
+      margin-bottom: 20px;
     }
 
     .add-form {
       background-color: #fff;
       padding: 15px;
+      margin: auto;
       margin-bottom: 20px;
       border: 1px solid #ccc;
       border-radius: 10px;
       max-width: 800px;
-      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .add-form input,
-    .add-form select,
-    .add-form button {
-      margin: 5px 0;
+    .filters,
+    .inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filters select,
+    .inputs input,
+    .inputs select {
+      flex: 1 1 48%;
       padding: 10px;
-      width: 100%;
       box-sizing: border-box;
+    }
+
+    .inputs input[type="file"] {
+      flex: 1 1 100%;
+    }
+
+    .add-form button {
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
     }
 
     #cardsContainer {
@@ -82,6 +108,7 @@
       padding: 8px 12px;
       cursor: pointer;
       border-radius: 5px;
+      font-size: 14px;
     }
 
     .whatsapp-btn {
@@ -93,6 +120,18 @@
       background-color: #e74c3c;
       color: white;
     }
+
+    @media (max-width: 600px) {
+      .filters select,
+      .inputs input,
+      .inputs select {
+        flex: 1 1 100%;
+      }
+
+      .add-form button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -100,22 +139,26 @@
   <h1>إدارة السيارات</h1>
 
   <form class="add-form">
-    <input type="text" id="name" placeholder="اسم السيارة">
-    <input type="text" id="cc" placeholder="عدد الأحصنة">
-    <input type="text" id="price" placeholder="السعر">
+    <div class="filters">
+      <select id="brandFilter"><option value="">الشركة</option></select>
+      <select id="markFilter"><option value="">الماركة</option></select>
+      <select id="modelFilter"><option value="">الموديل</option></select>
+      <select id="typeFilter"><option value="">النوع</option></select>
+      <select id="gearFilter"><option value="">القير</option></select>
+      <select id="fuelFilter"><option value="">الوقود</option></select>
+      <select id="colorFilter"><option value="">اللون</option></select>
+      <select id="powerFilter"><option value="">القوة</option></select>
+      <select id="ccFilter"><option value="">السعة</option></select>
+      <select id="cityFilter"><option value="">المدينة</option></select>
+    </div>
 
-    <select id="brandFilter"><option value="">الشركة</option></select>
-    <select id="markFilter"><option value="">الماركة</option></select>
-    <select id="modelFilter"><option value="">الموديل</option></select>
-    <select id="typeFilter"><option value="">النوع</option></select>
-    <select id="gearFilter"><option value="">القير</option></select>
-    <select id="fuelFilter"><option value="">الوقود</option></select>
-    <select id="colorFilter"><option value="">اللون</option></select>
-    <select id="powerFilter"><option value="">القوة</option></select>
-    <select id="ccFilter"><option value="">السعة</option></select>
-    <select id="cityFilter"><option value="">المدينة</option></select>
+    <div class="inputs">
+      <input type="text" id="name" placeholder="اسم السيارة">
+      <input type="text" id="cc" placeholder="عدد الأحصنة">
+      <input type="text" id="price" placeholder="السعر">
+      <input type="file" id="imageInput">
+    </div>
 
-    <input type="file" id="imageInput">
     <button type="button" onclick="addCard()">إضافة</button>
   </form>
 
