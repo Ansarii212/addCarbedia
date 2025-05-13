@@ -3,72 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>صفحة كنترول السيارات</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>كنترول السيارات</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-      direction: rtl;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 30px;
-    }
-    .add-form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    .add-form h3 {
-      text-align: center;
-    }
-    .add-form input, .add-form select {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .add-form button {
-      background-color: #28a745;
-      color: white;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+    body { font-family: Tahoma; background: #f9f9f9; padding: 20px; direction: rtl; }
+    h1 { text-align: center; color: #333; }
+    .add-form { background: #fff; padding: 20px; border-radius: 10px; max-width: 700px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .add-form h3 { text-align: center; }
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .filters select, .add-form input { width: 100%; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; }
+    .add-form button { background-color: #28a745; color: white; width: 100%; padding: 12px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
   </style>
 </head>
 <body>
 
-<h1>add Carbedia</h1>
+<h1>كنترول السيارات</h1>
 
 <div class="add-form">
-  <h3>أضف سيارة جديدة</h3>
+  <h3>إضافة سيارة جديدة</h3>
+  <div class="filters">
+    <select id="brand"><option value="">الشركة</option><option>تويوتا</option><option>هيونداي</option><option>مرسيدس</option></select>
+    <select id="model"><option value="">الموديل</option><option>2020</option><option>2021</option><option>2022</option></select>
+    <select id="city"><option value="">المدينة</option><option>الرياض</option><option>جدة</option></select>
+    <select id="type"><option value="">النوع</option><option>سيدان</option><option>دفع رباعي</option></select>
+    <select id="gear"><option value="">القير</option><option>أوتوماتيك</option><option>عادي</option></select>
+    <select id="fuel"><option value="">الوقود</option><option>بنزين</option><option>ديزل</option></select>
+    <select id="color"><option value="">اللون</option><option>أبيض</option><option>أسود</option></select>
+    <select id="power"><option value="">القوة</option><option>100 حصان</option><option>150 حصان</option><option>200 حصان</option></select>
+    <select id="cc"><option value="">السعة</option><option>1000 CC</option><option>1500 CC</option><option>2000 CC</option></select>
+  </div>
 
-  <input type="text" id="name" placeholder="عنوان الإعلان">
-  <input type="text" id="cc" placeholder="عدد الأحصنة">
-  <input type="number" id="price" placeholder="السعر">
-  <input type="file" id="imageInput" accept="image/*">
-  <button onclick="addCard()">إضافة</button>
+  <input type="text" id="title" placeholder="عنوان الإعلان" />
+  <input type="number" id="price" placeholder="السعر" />
+  <input type="file" id="image" accept="image/*" />
+  <button onclick="uploadCar()">إضافة</button>
 </div>
 
-<!-- Firebase SDKs -->
-<script type="module">
-  // استيراد Firebase من SDK v9+
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
-  import { getDatabase, ref as dbRef, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
-
-  // إعداد Firebase
+<script>
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyCr4T8GLRxtf_6LNrokjKvmBOwSkuGO5yQ",
     authDomain: "hamsa-6009e.firebaseapp.com",
@@ -80,51 +54,45 @@
     measurementId: "G-PD1QB8X0FE"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-  const storage = getStorage(app);
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const storage = firebase.storage();
 
-  // دالة الإضافة
-  window.addCard = async function () {
-    const name = document.getElementById('name').value;
-    const cc = document.getElementById('cc').value;
+  function uploadCar() {
+    const title = document.getElementById('title').value;
     const price = document.getElementById('price').value;
-    const imageFile = document.getElementById('imageInput').files[0];
+    const brand = document.getElementById('brand').value;
+    const model = document.getElementById('model').value;
+    const city = document.getElementById('city').value;
+    const type = document.getElementById('type').value;
+    const gear = document.getElementById('gear').value;
+    const fuel = document.getElementById('fuel').value;
+    const color = document.getElementById('color').value;
+    const power = document.getElementById('power').value;
+    const cc = document.getElementById('cc').value;
+    const imageFile = document.getElementById('image').files[0];
 
-    if (!name || !cc || !price || !imageFile) {
-      alert("يرجى تعبئة جميع الحقول واختيار صورة.");
+    if (!title || !price || !imageFile) {
+      alert('يرجى تعبئة كل الحقول واختيار صورة.');
       return;
     }
 
-    try {
-      const imgName = Date.now() + "_" + imageFile.name;
-      const imgRef = storageRef(storage, 'carImages/' + imgName);
+    const imageName = Date.now() + "_" + imageFile.name;
+    const storageRef = storage.ref('cars/' + imageName);
 
-      // رفع الصورة
-      await uploadBytes(imgRef, imageFile);
-      const downloadURL = await getDownloadURL(imgRef);
-
-      // حفظ البيانات
-      const carData = {
-        name: name,
-        cc: cc,
-        price: price,
-        imageUrl: downloadURL,
-        timestamp: Date.now()
-      };
-
-      await push(dbRef(database, 'cars'), carData);
-
+    storageRef.put(imageFile).then(snapshot => {
+      return snapshot.ref.getDownloadURL();
+    }).then(imageURL => {
+      const newCarRef = database.ref('cars').push();
+      newCarRef.set({
+        title, price, brand, model, city, type, gear, fuel, color, power, cc, image: imageURL
+      });
       alert("تمت الإضافة بنجاح!");
-      document.getElementById('name').value = "";
-      document.getElementById('cc').value = "";
-      document.getElementById('price').value = "";
-      document.getElementById('imageInput').value = "";
-
-    } catch (error) {
+      document.querySelector(".add-form").reset();
+    }).catch(error => {
       console.error("خطأ:", error);
-      alert("حدث خطأ أثناء الإضافة.");
-    }
+      alert("حدث خطأ أثناء الرفع.");
+    });
   }
 </script>
 
