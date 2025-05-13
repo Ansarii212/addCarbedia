@@ -200,8 +200,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCr4T8GLRxtf_6LNrokjKvmBOwSkuGO5yQ",
@@ -215,8 +214,7 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getFirestore(app);
+  const database = getDatabase(app);
 
   window.addCard = async function () {
     const name = document.getElementById('name').value;
@@ -234,27 +232,29 @@
     const power = document.getElementById('powerFilter').value;
     const capacity = document.getElementById('ccFilter').value;
 
+    const data = {
+      name,
+      cc,
+      price,
+      brand,
+      mark,
+      city,
+      model,
+      type,
+      gear,
+      fuel,
+      color,
+      power,
+      capacity,
+      timestamp: new Date().toISOString()
+    };
+
     try {
-      await addDoc(collection(db, "cars"), {
-        name,
-        cc,
-        price,
-        brand,
-        mark,
-        city,
-        model,
-        type,
-        gear,
-        fuel,
-        color,
-        power,
-        capacity,
-        timestamp: new Date().toISOString()
-      });
-      alert("تمت إضافة السيارة بنجاح!");
+      await push(ref(database, 'cars'), data);
+      alert("تمت إضافة السيارة بنجاح إلى قاعدة البيانات!");
     } catch (error) {
-      console.error("خطأ في الإضافة:", error);
-      alert("حدث خطأ أثناء الإضافة.");
+      console.error("حدث خطأ أثناء الإضافة:", error);
+      alert("فشل في إضافة البيانات.");
     }
   };
 </script>
