@@ -146,7 +146,11 @@
           storageRef.put(file).then(snapshot => {
             snapshot.ref.getDownloadURL().then(url => {
               saveCar(url);
+            }).catch(error => {
+              alert("حدث خطأ أثناء تحميل الصورة: " + error.message);
             });
+          }).catch(error => {
+            alert("حدث خطأ أثناء تحميل الصورة: " + error.message);
           });
         } else {
           saveCar('');
@@ -177,7 +181,7 @@
           alert('تمت الإضافة بنجاح');
           document.getElementById('carForm').reset();
         }).catch(error => {
-          alert("حدث خطأ: " + error.message);
+          alert("حدث خطأ أثناء إضافة البيانات: " + error.message);
         });
       }
     }
